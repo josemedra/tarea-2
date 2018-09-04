@@ -1,0 +1,189 @@
+#include <iostream>
+
+
+using namespace std;
+
+void foo_funtion(void); //Esta declaracion dejela tal y como esta
+void Init_Fifo(void); //Esta declaracion dejela tal y como esta
+void Escribe_Fifo(void); //Esta declaracion dejela tal y como esta
+void Lee_Fifo(void); //Esta declaracion dejela tal y como esta
+
+//int n=[19];
+int FIFO[20]={1,3,4,5,6,7,9,8,9,0,12,11,21,23,34,22,31,45,44,56};
+int lectura;
+int escritura=6;
+int *ptrread;
+int *ptrwrite;
+
+
+struct MiEstructura1
+{
+ int val1=1;
+ char val2='F';
+ float val3=3.4;
+ char val4='A';
+ double val5=3.33;
+ int val6=2;
+} varstruct1;
+
+struct MiEstructura2
+{
+ int val1=2;
+ int val2=3;
+ float val3= 3.5;
+ char val4='L';
+ char val5='P';
+ double val6 =33.3;
+}varstruct2;
+
+
+int main()
+{
+
+  char * my_string="Animals";
+  std::cout<<my_string<< std::endl;
+
+
+  MiEstructura1*ptr=&varstruct1;
+
+   cout << "las variables de MiEstructura1 son: " << endl;
+   std::cout<<"el valor de mi val1 es: "<<ptr->val1<< std::endl;
+   std::cout<<"el valor de mi val2 es: "<<ptr->val2<< std::endl;
+   std::cout<<"el valor de mi val3 es: "<<ptr->val3<< std::endl;
+   std::cout<<"el valor de mi val4 es: "<<ptr->val4<< std::endl;
+   std::cout<<"el valor de mi val5 es: "<<ptr->val5<< std::endl;
+   std::cout<<"el valor de mi val6 es: "<<ptr->val6<< std::endl;
+
+  MiEstructura2*ptr2=&varstruct2;
+
+   cout << "las variables de MiEstructura2 son: " << endl;
+   std::cout<<"el valor de mi val1 es: "<<ptr->val1<< std::endl;
+   std::cout<<"el valor de mi val2 es: "<<ptr->val2<< std::endl;
+   std::cout<<"el valor de mi val3 es: "<<ptr->val3<< std::endl;
+   std::cout<<"el valor de mi val4 es: "<<ptr->val4<< std::endl;
+   std::cout<<"el valor de mi val5 es: "<<ptr->val5<< std::endl;
+   std::cout<<"el valor de mi val6 es: "<<ptr->val6<< std::endl;
+
+   std::cout<<*((int*)ptr+0)<<std::endl;
+   std::cout<<*((char*)ptr+4)<<std::endl;
+   std::cout<<*((float*)ptr+2)<<std::endl;
+   std::cout<<*((char*)ptr+12)<<std::endl;
+   std::cout<<*((double*)ptr+2)<<std::endl;
+   std::cout<<*((int*)ptr+6)<<std::endl;
+
+   std::cout<<*((int*)ptr2+0)<<std::endl;
+   std::cout<<*((int*)ptr2+1)<<std::endl;
+   std::cout<<*((float*)ptr2+2)<<std::endl;
+   std::cout<<*((char*)ptr2+12)<<std::endl;
+   std::cout<<*((char*)ptr2+13)<<std::endl;
+   std::cout<<*((double*)ptr2+2)<<std::endl;
+
+
+   cout << "Dimencion de la miestructura1: "
+        << sizeof(varstruct1) << endl;
+   cout << "Dimencion de la miestructura2: "
+        << sizeof(varstruct2) << endl;
+
+        /*la funcion sizeof en una estructura, reserva la memoria con el valor de bytes del dato màs grande.
+         En la primera estructura tenemos un dato tipo double el cual ocupa una memoria de 8 bytes,
+         los demas datos se distribuyen con respecto a los bytes del dato double.
+         obteniendo en estructura1 un espacio de memoria de 32 bytes, y en la estructura2 24 bytes*/
+
+
+    //llamados de funciones
+    foo_funtion();
+    foo_funtion();
+    foo_funtion();
+
+    Init_Fifo();
+    Escribe_Fifo();
+    Lee_Fifo();
+
+
+    return 0;
+}
+// funcion foo_funtion (para recorrer el arreglo i)
+void foo_funtion(void)
+{
+    int i [3]={1,2,3};
+
+    static int *ptr3=&i[0];
+    std::cout<<"El elemento es  :"<<*ptr3<< std::endl;
+    ptr3++;
+
+}
+
+//funcion fifo.
+
+void Init_Fifo(void)
+{
+    //Aqui va la incializacion de los punteros
+    ptrwrite=&FIFO[0];
+    ptrread=&FIFO[0];
+}
+
+// función para escribir fifo.
+void Escribe_Fifo(void)
+{
+    //Aqui agregue la logica para la escritura de la FIFO
+if(ptrwrite==&FIFO[19])
+{
+*ptrwrite=escritura;
+
+std::cout<< "la memoria esta en la ultima posición" <<std::endl;
+ptrwrite=&FIFO[0];
+}
+//verificamos que la fifo no este llena.
+else
+
+if(ptrwrite+1==ptrread)
+
+{
+    std::cout<< "la memoria esta llena" <<std::endl;
+
+    return;
+}
+else
+{
+
+    *ptrwrite=escritura;
+    ++ptrwrite;
+   // std::cout<< "el numero es" <<escritura<<std::endl;
+    std::cout<< "el numero es" <<*ptrwrite++<<std::endl;
+}
+     }
+
+     //FUNCION PARA LEER
+
+     void Lee_Fifo(void)
+{
+    //Aqui agregue la logica para la lectura de la FIFO
+   // write++;
+    if(ptrread==ptrwrite)
+
+     cout<<"esta vacia la estructura"<<std:: endl;
+
+
+else
+
+{
+    lectura=*ptrread;
+    cout<<"lectura exitosa"<<std::endl;
+}
+
+
+
+if(ptrread==&FIFO[19]&& ptrread!=ptrwrite)
+{
+lectura=*ptrread;
+  cout<<"lectura exitosa"<<std::endl;
+  ptrread=&FIFO[0];
+}
+
+else if(ptrread!=ptrwrite)
+{
+ lectura=*ptrread;
+ ++ptrread;
+ cout<<"lectura de la estructura"<<std::endl;
+}
+}
